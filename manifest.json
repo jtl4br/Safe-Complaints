@@ -5,7 +5,7 @@
     "short_name": "Safe Complaints",
 	"description": "A Chrome extension that replaces rape metaphors and sexist language in complaints about academics with safer language",
 	"author": "Jonathan Lee, Frank Huang, Allison Ko",
-	"version": "1.18",
+	"version": "1.25",
 
 	"icons": {
 		"16": "icon16.png",

@@ -16,92 +16,139 @@ function walk(rootNode)
 }
 
 function handleText(textNode) {
-  textNode.nodeValue = replaceText(textNode.nodeValue);
+     //   console.log("HERE IS THE TEXT **************************************")
+   // console.log(textNode.nodeValue);
+  //textNode.nodeValue = replaceText(textNode.nodeValue);
+  sArray = (textNode.nodeValue).split(" ");
+    var indicesOfPossReplacements = new Set();
+    // console.log("ARRAY HERE~~~~~~~")
+    //  for(i = 0; i<sArray.length; i++)
+    // {
+    //     console.log(sArray[i]);    
+    // }
+    for(i = 0; i<sArray.length; i++)
+    {
+        if(sArray[i].toLowerCase() == "fucked" ||  sArray[i].toLowerCase() == "raped")
+            indicesOfPossReplacements.add(i);   
+    }
+    for (index of indicesOfPossReplacements)
+    {
+        for(i = index - 5; i <= index+5; i++)
+        {
+            if(i >=0 && i < sArray.length)
+            {
+                if(checkAcademicWord(sArray[i]))
+                {
+                    sArray[index] = replaceText(sArray[index]);
+                }
+            }
+        }
+    }
+    var modifiedString = "";
+    for(i = 0; i<sArray.length-1; i++)
+    {
+        modifiedString += sArray[i];
+        modifiedString += " ";
+    }
+    modifiedString += sArray[sArray.length-1];
+    textNode.nodeValue = modifiedString;
+
+
 }
 
 
 function checkAcademicWord(word) {
-    academicWords = ["homework", "homeworks", "assignment", "assignments", "exam", "exams", "test", "tests", "quiz", "quizzes", "lab", "labs", "project", "projects", "essay", "essays", "lab report", "lab reports", "presentation", "presentations", "class", "classes"];    
+    academicWords = ["homework", "homeworks", "assignment", "assignments", "exam", "exams", "test", "tests", "quiz", "quizzes", "lab", "labs", "project", "projects", "essay", "essays", "lab report", "lab reports", "presentation", "presentations", "class", "classes", "homework.", "homeworks.", "assignment.", "assignments.", "exam.", "exams.", "test.", "tests.", "quiz.", "quizzes.", "lab.", "labs.", "project.", "projects.", "essay.", "essays.", "lab report.", "lab reports.", "presentation.", "presentations.", "class.", "classes.", "homework,", "homeworks,", "assignment,", "assignments,", "exam,", "exams,", "test,", "tests,", "quiz,", "quizzes,", "lab,", "labs,", "project,", "projects,", "essay,", "essays,", "lab report,", "lab reports,", "presentation,", "presentations,", "class,", "classes,"];    
 
-    for(i = 0; i<academicWords.length; i++)
+    for(n = 0; n<academicWords.length; n++)
     {
-        if(word.toLowerCase() == academicWords[i])
+        if(word.toLowerCase() == academicWords[n])
             return true;
     }
     return false;
 }
 
-function needReplacement(s)
-{
-    console.log("in needReplacement");
+// function needReplacement(s)
+// {
+//     console.log("in needReplacement");
 
-    sArray = s.split();
-    console.log(sArray);
-    badLanguage = -1;
-    academicLanguage = -1;
-    for(i = 0; i<=sArray.length; i++)
-    {
-        if(sArray[i].toLowerCase() == "raped" || sArray[i].toLowerCase() == "fucked")
-        {
-            console.log("bad language");
-            if(academicLanguage >= 0)
-            {
-                if(i-academicLanguage < 6)
-                {
-                    console.log("TRUE");
-                    return true;
-                }
-            }
-            badLanguage = i;
-        }
-        else 
-        {
-            if(checkAcademicWord(sArray[i]))
-            {
-                console.log("academic word");
-                if(badLanguage >= 0)
-                {
-                    if(i - badLanguage < 6)
-                    {
-                        console.log("TRUE");
-                        return true;
-                    }
-                }
-                academicLanguage = i;
-            }
-        }
-    }
-    return false;
-}
+//     sArray = s.split();
+//     console.log(sArray);
+//     badLanguage = -1;
+//     academicLanguage = -1;
+//     for(i = 0; i<=sArray.length; i++)
+//     {
+//         if(sArray[i].toLowerCase() == " raped " || sArray[i].toLowerCase() == " fucked ")
+//         {
+//             console.log("bad language");
+//             if(academicLanguage >= 0)
+//             {
+//                 if(i-academicLanguage < 6)
+//                 {
+//                     console.log("TRUE");
+//                     return true;
+//                 }
+//             }
+//             badLanguage = i;
+//         }
+//         else 
+//         {
+//             if(checkAcademicWord(sArray[i]))
+//             {
+//                 console.log("academic word");
+//                 if(badLanguage >= 0)
+//                 {
+//                     if(i - badLanguage < 6)
+//                     {
+//                         console.log("TRUE");
+//                         return true;
+//                     }
+//                 }
+//                 academicLanguage = i;
+//             }
+//         }
+//     }
+//     return false;
+// }
 
 
 function replaceText(v)
 {
-
     var searchMask1 = "raped";
     var searchMask2 = "fucked";
     var regEx1 = new RegExp(searchMask1, "ig");
     var regEx2 = new RegExp(searchMask2, "ig");
     var replaceMask = "WRECKED"
 
-    if(needReplacement(v))
-    {
-        console.log("needReplacement true, replacing based upon that");
-        v = v.replace(/\b(R|r)aped\b/g, "wrecked");
-        v = v.replace(/\b(F|f)ucked\b/g, "wrecked");
+    // if(needReplacement(v))
+    // {
+    //     console.log("needReplacement true, replacing based upon that");
+    //     v = v.replace(/\bRaped\b/g, "Wrecked");
+    //     v = v.replace(/\braped\b/g, "wrecked");
+    //     v = v.replace(/\bfucked\b/g, "wrecked");
+    //     v = v.replace(/\bFucked\b/g, "Wrecked");
+    //     //v = v.replace(/\bRAPED\b/g, "WRECKED");
+    //     //v = v.replace(/\bFUCKED\b/g, "WRECKED");
+    //     v = v.replace(regEx1, replaceMask);
+    //     v = v.replace(regEx2, replaceMask);
+    // }
+
+    //console.log("back up replaces here");
+
+
+    
+
+
+
+
+        v = v.replace(/\braped\b/g, "wrecked");
+        v = v.replace(/\bRaped\b/g, "Wrecked");
+        v = v.replace(/\bRAPED\b/g, "WRECKED");
+        v = v.replace(/\bfucked\b/g, "wrecked");
+        v = v.replace(/\bFucked\b/g, "Wrecked");
+        v = v.replace(/\bFUCKED\b/g, "WRECKED");
         //v = v.replace(/\bRAPED\b/g, "WRECKED");
         //v = v.replace(/\bFUCKED\b/g, "WRECKED");
-        v = v.replace(regEx1, replaceMask);
-        v = v.replace(regEx2, replaceMask);
-    }
-
-    console.log("back up replaces here");
-
-    v = v.replace(/\b(R|r)aped\b/g, "wrecked");
-        v = v.replace(/\b(F|f)ucked\b/g, "wrecked");
-        // v = v.replace(/\bRAPED\b/g, "WRECKED");
-        // v = v.replace(/\bFUCKED\b/g, "WRECKED");
-;
         v = v.replace(regEx1, replaceMask);
         v = v.replace(regEx2, replaceMask);
 
